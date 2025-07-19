@@ -337,7 +337,6 @@ export class TargetManager {
     // This would affect how detailed the target geometry is
     // For now, we'll store it for future use when creating targets
     // In a more advanced implementation, this would affect the geometry detail
-    console.log(`Target complexity set to: ${complexity}`);
   }
 
   public getTrainingAreaBounds(): typeof this.TRAINING_AREA {

@@ -134,11 +134,9 @@ export class InputManager {
 
   private handlePointerLockChange(): void {
     this.isPointerLocked = document.pointerLockElement === this.canvas;
-    console.log('Pointer lock:', this.isPointerLocked ? 'enabled' : 'disabled');
   }
 
   private handlePointerLockError(): void {
-    console.error('Pointer lock failed');
     this.isPointerLocked = false;
   }
 

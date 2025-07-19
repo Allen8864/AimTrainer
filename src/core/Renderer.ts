@@ -195,11 +195,6 @@ export class Renderer {
     
     // Position weapon in world space relative to camera starting position
     weaponGroup.position.set(0.5, 1.2, -1.2); // World position: right of camera, at eye level, in front
-    
-    console.log('Weapon initialized and added to scene');
-    console.log('Weapon group children count:', weaponGroup.children.length);
-    console.log('Weapon group visible:', weaponGroup.visible);
-    console.log('Weapon world position:', weaponGroup.position);
   }
 
   private setupEventListeners(): void {
@@ -233,13 +228,6 @@ export class Renderer {
     // Update weapon to follow camera movement
     if (this.uspPistol) {
       this.uspPistol.updateCameraFollow(this.camera);
-    }
-    
-    // Debug: Log weapon visibility occasionally
-    if (this.uspPistol && Date.now() % 2000 < 16) { // Every 2 seconds
-      const weaponGroup = this.uspPistol.getGroup();
-      console.log('Weapon debug - Visible:', weaponGroup.visible, 'Children:', weaponGroup.children.length);
-      console.log('Camera children count:', this.camera.children.length);
     }
     
     this.renderer.render(this.scene, this.camera);
@@ -306,12 +294,7 @@ export class Renderer {
     });
 
     // Apply antialias setting (note: this requires renderer recreation for full effect)
-    // For now, we'll just log it as antialias is set during renderer creation
-    if (!settings.antialias && this.renderer.getContext().getContextAttributes()?.antialias) {
-      console.log('Antialias setting changed - restart may be required for full effect');
-    }
-
-    console.log('Quality settings applied to renderer:', settings);
+    // Antialias is set during renderer creation
   }
 
   public dispose(): void {

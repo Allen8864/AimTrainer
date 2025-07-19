@@ -166,7 +166,6 @@ export class PerformanceManager {
     }
 
     this.setQualityLevel(newLevel);
-    console.log(`Performance: Downgraded quality to ${newLevel} (FPS: ${this.getAverageFps().toFixed(1)})`);
   }
 
   private upgradeQuality(): void {
@@ -184,7 +183,6 @@ export class PerformanceManager {
     }
 
     this.setQualityLevel(newLevel);
-    console.log(`Performance: Upgraded quality to ${newLevel} (FPS: ${this.getAverageFps().toFixed(1)})`);
   }
 
   public setQualityLevel(level: QualityLevel): void {

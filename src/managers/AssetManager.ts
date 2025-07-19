@@ -49,8 +49,8 @@ export class AssetManager {
       }
     };
 
-    this.loadingManager.onError = (url) => {
-      console.error(`Failed to load asset: ${url}`);
+    this.loadingManager.onError = () => {
+      // Ignore loading errors
     };
   }
 
@@ -86,7 +86,6 @@ export class AssetManager {
         },
         undefined,
         (error) => {
-          console.error(`Failed to load texture: ${url}`, error);
           reject(error);
         }
       );
@@ -107,7 +106,6 @@ export class AssetManager {
         },
         undefined,
         (error) => {
-          console.error(`Failed to load OBJ model: ${url}`, error);
           reject(error);
         }
       );
@@ -211,7 +209,6 @@ export class AssetManager {
       this.audioCache.set(cacheKey, audioBuffer);
       return audioBuffer;
     } catch (error) {
-      console.error(`Failed to load audio: ${url}`, error);
       throw error;
     }
   }
@@ -244,9 +241,8 @@ export class AssetManager {
 
     try {
       await Promise.all(promises);
-      console.log('All assets preloaded successfully');
     } catch (error) {
-      console.error('Failed to preload some assets:', error);
+      // Ignore preload errors
     }
   }
 
@@ -300,7 +296,6 @@ export class AssetManager {
   public clearUnusedAssets(): void {
     // This is a simplified cleanup - in a real implementation,
     // you'd track asset usage and only clear truly unused assets
-    console.log('Asset cleanup triggered');
     
     // Force garbage collection of unused Three.js resources
     if (typeof window !== 'undefined' && (window as any).gc) {
@@ -324,8 +319,6 @@ export class AssetManager {
         }
       }
     });
-
-    console.log('Assets optimized for low memory');
   }
 
   public isLoadingAssets(): boolean {
@@ -353,7 +346,5 @@ export class AssetManager {
 
     // Clear audio cache
     this.audioCache.clear();
-
-    console.log('AssetManager disposed');
   }
 }

@@ -12,14 +12,10 @@ export class USPPistol {
   private recoilAccumulation: number = 0;
   private lastShotTime: number = 0;
   private consecutiveShots: number = 0;
-  private basePosition: THREE.Vector3 = new THREE.Vector3();
-  private baseRotation: THREE.Euler = new THREE.Euler();
 
   // Recoil offset system (applied on top of camera follow)
   private recoilOffset: THREE.Vector3 = new THREE.Vector3();
   private recoilRotationOffset: THREE.Euler = new THREE.Euler();
-
-
 
   // Camera shake callback
   private onCameraShake?: (intensity: number, duration: number) => void;
@@ -40,7 +36,6 @@ export class USPPistol {
 
   private async loadWeaponModel(): Promise<void> {
     try {
-      console.log('Loading weapon model...');
 
       // Load textures first
       const textureLoader = new THREE.TextureLoader();
@@ -77,12 +72,7 @@ export class USPPistol {
 
       this.group.add(weaponModel);
       this.isModelLoaded = true;
-
-      console.log('Weapon model loaded successfully');
-      console.log('Model children count:', weaponModel.children.length);
-
     } catch (error) {
-      console.error('Failed to load weapon model:', error);
       // Fallback to simple geometry
       this.createFallbackWeapon();
     }
@@ -99,7 +89,6 @@ export class USPPistol {
         },
         undefined,
         (error) => {
-          console.warn(`Failed to load texture: ${url}`, error);
           reject(error);
         }
       );
@@ -113,7 +102,6 @@ export class USPPistol {
         (object) => resolve(object),
         undefined,
         (error) => {
-          console.error(`Failed to load OBJ model: ${url}`, error);
           reject(error);
         }
       );
@@ -121,7 +109,6 @@ export class USPPistol {
   }
 
   private createFallbackWeapon(): void {
-    console.log('Creating fallback weapon geometry');
 
     // Create a simple but visible fallback weapon
     const weaponGroup = new THREE.Group();
@@ -149,8 +136,6 @@ export class USPPistol {
 
     this.group.add(weaponGroup);
     this.isModelLoaded = true;
-
-    console.log('Fallback weapon created');
   }
 
   private positionWeapon(): void {
@@ -159,14 +144,6 @@ export class USPPistol {
     this.group.position.set(0.5, -0.7, -1.2); // Right side, lower position, very close to camera
     this.group.rotation.set(-0.3, 0.3, 0.5); // Tilted for FPS view, more left tilt
     this.group.scale.set(0.8, 0.8, 0.8); // Normal scale first
-
-    // Store base position and rotation for recoil calculations
-    this.basePosition.copy(this.group.position);
-    this.baseRotation.copy(this.group.rotation);
-
-    console.log('Weapon positioned at:', this.group.position);
-    console.log('Weapon rotation:', this.group.rotation);
-    console.log('Weapon scale:', this.group.scale);
   }
 
   private createMuzzleFlash(): void {
@@ -185,21 +162,13 @@ export class USPPistol {
     this.muzzleFlash.position.set(-0.1, 0.55, -1.2); // X decreased from 0 to -0.1
     this.muzzleFlash.rotation.set(0, 0, Math.PI / 2); // Point forward
     this.group.add(this.muzzleFlash);
-
-
-
-    console.log('🔫 Muzzle flash created at local position:', this.muzzleFlash.position);
   }
 
   public fire(): void {
-    console.log('🔫 USPPistol.fire() called!');
-
     // Update shot timing and accumulation first
     this.updateRecoilAccumulation();
-    console.log(`📊 Recoil accumulation: ${this.recoilAccumulation}, consecutive shots: ${this.consecutiveShots}`);
 
     // Always allow firing - use additive recoil system
-    console.log('✅ Adding recoil impulse');
     this.addRecoilImpulse();
 
     // Muzzle flash effect
@@ -240,8 +209,6 @@ export class USPPistol {
       this.recoilRotationOffset.z += (Math.random() - 0.5) * swayIntensity * 0.5;
     }
 
-    console.log(`💥 Added recoil impulse - Offset now: ${this.recoilOffset.x.toFixed(3)}, ${this.recoilOffset.y.toFixed(3)}, ${this.recoilOffset.z.toFixed(3)}`);
-
     // Start recovery animation if not already running
     if (!this.isAnimating) {
       this.isAnimating = true;
@@ -250,7 +217,6 @@ export class USPPistol {
   }
 
   private startRecoilRecovery(): void {
-    console.log('🔄 Starting recoil recovery');
 
     const recoverySpeed = 0.95; // How fast to recover (0.95 = 5% reduction per frame)
     const minThreshold = 0.001; // Minimum offset before stopping recovery
@@ -275,7 +241,6 @@ export class USPPistol {
         this.recoilOffset.set(0, 0, 0);
         this.recoilRotationOffset.set(0, 0, 0);
         this.isAnimating = false;
-        console.log('✅ Recoil recovery complete');
 
         // Gradually reduce accumulation over time
         setTimeout(() => {
@@ -433,11 +398,8 @@ export class USPPistol {
 
   private showMuzzleFlash(): void {
     if (!this.muzzleFlash) {
-      console.log('⚠️ No muzzle flash object found');
       return;
     }
-
-    console.log('💥 Showing muzzle flash');
     const material = this.muzzleFlash.material as THREE.MeshBasicMaterial;
 
     // Show flash with higher opacity
@@ -463,7 +425,6 @@ export class USPPistol {
         requestAnimationFrame(fadeOut);
       } else {
         material.opacity = 0;
-        console.log('💥 Muzzle flash faded out');
       }
     };
 
@@ -503,15 +464,6 @@ export class USPPistol {
       baseRotation.order
     );
     this.group.rotation.copy(finalRotation);
-
-    // Log position for debugging occasionally
-    if (Date.now() % 1000 < 16) { // Log roughly once per second
-      console.log('Camera world position:', cameraWorldPosition);
-      console.log('Weapon world position:', this.group.position);
-      console.log('Recoil offset:', this.recoilOffset);
-      console.log('Weapon visible in scene:', this.group.visible);
-      console.log('Model loaded:', this.isModelLoaded);
-    }
   }
 
   public getGroup(): THREE.Group {
@@ -524,10 +476,6 @@ export class USPPistol {
     if (this.muzzleFlash) {
       // Get the world position of the muzzle flash
       this.muzzleFlash.getWorldPosition(muzzlePosition);
-      console.log('🎯 Muzzle flash local pos:', this.muzzleFlash.position);
-      console.log('🎯 Weapon group world pos:', this.group.position);
-      console.log('🎯 Weapon group world rot:', this.group.rotation);
-      console.log('🎯 Final muzzle world position:', muzzlePosition);
     } else {
       // Calculate approximate muzzle position based on weapon group
       this.group.getWorldPosition(muzzlePosition);
@@ -537,8 +485,6 @@ export class USPPistol {
       const forwardOffset = new THREE.Vector3(-0.1, 0.55, -1.2); // Same as muzzle flash position
       forwardOffset.applyQuaternion(this.group.quaternion);
       muzzlePosition.add(forwardOffset);
-
-      console.log('🎯 Calculated muzzle position:', muzzlePosition);
     }
 
     return muzzlePosition;
@@ -553,7 +499,6 @@ export class USPPistol {
     this.group.getWorldQuaternion(worldQuaternion);
     direction.applyQuaternion(worldQuaternion);
 
-    console.log('🎯 Muzzle direction (reversed):', direction);
     return direction;
   }
 

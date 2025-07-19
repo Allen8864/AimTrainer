@@ -31,9 +31,7 @@ export class AudioManager {
       await this.loadSounds();
       
       this.isInitialized = true;
-      console.log('AudioManager initialized successfully');
     } catch (error) {
-      console.warn('Failed to initialize AudioManager:', error);
       this.isInitialized = false;
     }
   }
@@ -54,7 +52,7 @@ export class AudioManager {
         const buffer = createSound();
         this.sounds.set(soundType as SoundType, buffer);
       } catch (error) {
-        console.warn(`Failed to create ${soundType} sound:`, error);
+        // Ignore sound creation errors
       }
     }
   }
@@ -153,14 +151,12 @@ export class AudioManager {
       try {
         await this.audioContext.resume();
       } catch (error) {
-        console.warn('Failed to resume audio context:', error);
         return;
       }
     }
 
     const buffer = this.sounds.get(soundType);
     if (!buffer) {
-      console.warn(`Sound ${soundType} not found`);
       return;
     }
 
@@ -178,7 +174,7 @@ export class AudioManager {
       
       source.start();
     } catch (error) {
-      console.warn(`Failed to play sound ${soundType}:`, error);
+      // Ignore sound playback errors
     }
   }
 
@@ -197,8 +193,8 @@ export class AudioManager {
     
     if (enabled && !this.isInitialized) {
       // Initialize audio when enabled
-      this.initialize().catch(error => {
-        console.warn('Failed to initialize audio after enabling:', error);
+      this.initialize().catch(() => {
+        // Ignore initialization errors
       });
     }
   }
@@ -217,8 +213,8 @@ export class AudioManager {
 
   dispose(): void {
     if (this.audioContext) {
-      this.audioContext.close().catch(error => {
-        console.warn('Error closing audio context:', error);
+      this.audioContext.close().catch(() => {
+        // Ignore close errors
       });
       this.audioContext = null;
     }

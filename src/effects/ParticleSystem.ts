@@ -135,7 +135,6 @@ export class ParticleSystem {
   }
 
   createMuzzleFlash(position: THREE.Vector3, direction: THREE.Vector3): void {
-    console.log('💥 Creating muzzle flash at position:', position, 'direction:', direction);
     const particleCount = 6;
     
     for (let i = 0; i < particleCount; i++) {

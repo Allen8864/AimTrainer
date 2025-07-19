@@ -32,7 +32,6 @@ export class SettingsManager {
         this.validateSettings();
       }
     } catch (error) {
-      console.warn('Failed to load settings from localStorage:', error);
       this.settings = this.getDefaultSettings();
     }
   }
@@ -41,7 +40,7 @@ export class SettingsManager {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.settings));
     } catch (error) {
-      console.warn('Failed to save settings to localStorage:', error);
+      // Ignore save errors
     }
   }
 

@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-button');
 
   if (!canvas) {
-    console.error('Game canvas not found');
     return;
   }
 
@@ -57,10 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
           gameEngine.showStatistics();
         }
         break;
-
-
     }
   });
-
-  console.log('3D Aim Trainer initialized');
 });

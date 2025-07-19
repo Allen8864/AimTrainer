@@ -61,8 +61,8 @@ export class GameEngine {
 
       // Initialize audio manager
       this.audioManager = new AudioManager(this.settingsManager);
-      this.audioManager.initialize().catch(error => {
-        console.warn('Failed to initialize audio:', error);
+      this.audioManager.initialize().catch(() => {
+        // Audio initialization failed - continue without audio
       });
 
       // Initialize asset manager with audio context
@@ -106,7 +106,6 @@ export class GameEngine {
       this.setupEventListeners();
       this.start();
     } catch (error) {
-      console.error('Failed to initialize game engine:', error);
       // Error handling is already done in Renderer constructor
     }
   }
@@ -207,7 +206,6 @@ export class GameEngine {
   private handlePointerLockChange(): void {
     // If pointer lock is lost during gameplay, pause the game
     if (!document.pointerLockElement && this.currentState === GameState.PLAYING) {
-      console.log('Pointer lock lost, pausing game');
       this.pauseGame();
     }
   }
@@ -255,12 +253,10 @@ export class GameEngine {
       // In pointer lock mode, use screen center (crosshair position)
       hitX = this.canvas.clientWidth / 2;
       hitY = this.canvas.clientHeight / 2;
-      console.log(`Shooting from center: ${hitX}, ${hitY} (canvas: ${this.canvas.clientWidth}x${this.canvas.clientHeight})`);
     } else {
       // In normal mode, use mouse position
       hitX = position.x;
       hitY = position.y;
-      console.log(`Shooting from mouse: ${hitX}, ${hitY}`);
     }
 
     // Use the determined coordinates for hit detection
@@ -301,8 +297,6 @@ export class GameEngine {
           setTimeout(() => this.audioManager!.playSound('milestone'), 100);
         }
       }
-
-      console.log(`Target hit! Score: +${hitScore}, Total: ${this.scoreManager.getScore()}`);
     } else {
       // Add miss to score manager
       this.scoreManager.addMiss();
@@ -316,8 +310,6 @@ export class GameEngine {
       if (this.audioManager) {
         this.audioManager.playSound('miss');
       }
-
-      console.log(`Miss! Accuracy: ${this.scoreManager.getAccuracy().toFixed(1)}%`);
     }
   }
 
@@ -481,8 +473,6 @@ export class GameEngine {
 
       // Update UI visibility
       this.updateUIVisibility();
-
-      console.log('Waiting for player to start game');
     }
   }
 
@@ -492,7 +482,6 @@ export class GameEngine {
 
       // Check if we need to re-enter fullscreen mode
       if (!document.fullscreenElement) {
-        console.log('Not in fullscreen, re-entering game mode');
         this.enterGameMode();
       }
 
@@ -506,8 +495,6 @@ export class GameEngine {
 
       // Update UI visibility
       this.updateUIVisibility();
-
-      console.log('Game actually started');
     }
   }
 
@@ -522,7 +509,6 @@ export class GameEngine {
       this.exitGameMode();
 
       this.updateUIVisibility();
-      console.log('Game paused');
     }
   }
 
@@ -537,7 +523,6 @@ export class GameEngine {
       this.enterGameMode();
 
       this.updateUIVisibility();
-      console.log('Game resumed');
     }
   }
 
@@ -560,8 +545,6 @@ export class GameEngine {
       this.showFinalStats();
 
       this.updateUIVisibility();
-
-      console.log('Game ended');
     }
   }
 
@@ -642,8 +625,6 @@ export class GameEngine {
 
     // Reset game state
     this.startNewSession();
-
-    console.log('Returned to menu');
   }
 
   private enterGameMode(): void {
@@ -660,8 +641,7 @@ export class GameEngine {
 
         // Request pointer lock after fullscreen is active
         this.requestPointerLock();
-      }).catch(err => {
-        console.warn('Could not enter fullscreen:', err);
+      }).catch(() => {
         // Try pointer lock anyway
         this.requestPointerLock();
       });
@@ -674,19 +654,14 @@ export class GameEngine {
     const gameCrosshair = document.getElementById('game-crosshair');
     if (gameCrosshair) {
       gameCrosshair.classList.remove('hidden');
-      console.log('Game crosshair shown');
-    } else {
-      console.warn('Game crosshair element not found');
     }
   }
 
   private requestPointerLock(): void {
     if (this.inputManager) {
       this.inputManager.requestPointerLock().then(() => {
-        console.log('Pointer lock acquired');
         document.body.classList.add('game-active');
-      }).catch(err => {
-        console.warn('Could not acquire pointer lock:', err);
+      }).catch(() => {
         // Fallback to hiding cursor
         document.body.classList.add('game-active');
       });
@@ -701,8 +676,8 @@ export class GameEngine {
 
     // Exit fullscreen
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(err => {
-        console.warn('Could not exit fullscreen:', err);
+      document.exitFullscreen().catch(() => {
+        // Ignore fullscreen exit errors
       });
     }
 
@@ -713,7 +688,6 @@ export class GameEngine {
     const gameCrosshair = document.getElementById('game-crosshair');
     if (gameCrosshair) {
       gameCrosshair.classList.add('hidden');
-      console.log('Game crosshair hidden');
     }
   }
 
@@ -775,8 +749,6 @@ export class GameEngine {
 
     // Set target FPS
     this.performanceManager.setTargetFps(targetFps);
-
-    console.log(`Applied performance settings: Quality=${qualityLevel}, Auto=${autoAdjust}, FPS=${targetFps}`);
   }
 
   private handleQualityChange(settings: QualitySettings): void {
@@ -805,8 +777,6 @@ export class GameEngine {
     if (this.particleSystem) {
       this.particleSystem.setMaxParticles(settings.particleCount);
     }
-
-    console.log(`Quality settings applied: ${JSON.stringify(settings)}`);
   }
 
   private checkMemoryUsage(): void {
@@ -817,15 +787,12 @@ export class GameEngine {
 
     // Check if memory usage is high (over 100MB)
     if (totalMemoryMB > 100) {
-      console.log(`High memory usage detected: ${totalMemoryMB.toFixed(1)}MB`);
-
       // Trigger asset cleanup
       this.assetManager.clearUnusedAssets();
 
       // If still high, optimize for low memory
       if (totalMemoryMB > 150) {
         this.assetManager.optimizeForLowMemory();
-        console.log('Optimized assets for low memory');
       }
     }
 
@@ -837,7 +804,6 @@ export class GameEngine {
 
       // If using more than 80% of available memory, trigger cleanup
       if (usedMemoryMB / limitMemoryMB > 0.8) {
-        console.log(`Browser memory usage high: ${usedMemoryMB.toFixed(1)}MB / ${limitMemoryMB.toFixed(1)}MB`);
         this.assetManager.clearUnusedAssets();
 
         // Force garbage collection if available
