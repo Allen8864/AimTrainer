@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="description" content="3D Aim Trainer - Practice your aiming skills in a realistic 3D environment with USP pistol mechanics" />
+    <meta name="keywords" content="aim trainer, 3d, fps, shooting, practice, gaming" />
+    <meta name="theme-color" content="#1a1a1a" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.ts" as="script" type="module" />
+    
+    <!-- Performance and security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    
+
+    
+    <title>3D Aim Trainer</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas"></canvas>
+      <div id="ui-overlay">
+        <div id="start-screen" class="screen">
+          <div class="title-container">
+            <div class="crosshair-logo"></div>
+            <h1>3D Aim Trainer</h1>
+          </div>
+          <div id="game-instructions" class="instructions">
+            <p>Click on targets to improve your aim</p>
+            <div class="controls-info">
+              <p><kbd>Space</kbd> - Pause/Resume</p>
+              <p><kbd>Tab</kbd> - View Statistics</p>
+              <p><kbd>Esc</kbd> - Exit Fullscreen</p>
+            </div>
+          </div>
+          <button id="start-button">Play Now</button>
+          <button id="settings-button" class="settings-btn">⚙️</button>
+        </div>
+        <div id="game-ui" class="screen hidden">
+          <div id="game-crosshair" class="game-crosshair hidden"></div>
+          <div id="waiting-prompt" class="waiting-widget hidden">
+            <div class="widget-content">
+              <p>Click to Start</p>
+              <div class="timer-display">
+                <span id="countdown-timer">30</span>
+              </div>
+            </div>
+          </div>
+          <div id="score-display">
+            <span id="score">Score: 0</span>
+            <span id="accuracy">Accuracy: 0%</span>
+            <span id="time">Time: 0s</span>
+          </div>
+          <div id="pause-overlay" class="pause-overlay hidden">
+            <button id="pause-settings-button" class="settings-btn">⚙️</button>
+            <div class="pause-content">
+              <h2>Game Paused</h2>
+              <div class="pause-instructions">
+                <p>Press <kbd>Space</kbd> to resume</p>
+                <p>Press <kbd>Esc</kbd> to return to menu</p>
+                <p>Press <kbd>Tab</kbd> to view statistics</p>
+              </div>
+              <div class="pause-buttons">
+                <button id="resume-button">Resume</button>
+                <button id="menu-button">Main Menu</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="settings-panel" class="hidden">
+          <div>
+            <h3>Settings</h3>
+            <div class="setting-group">
+              <label for="sensitivity-slider">Mouse Sensitivity:</label>
+              <input type="range" id="sensitivity-slider" min="0.1" max="5" step="0.1" value="1">
+              <span id="sensitivity-value">1.0</span>
+            </div>
+            <div class="setting-group">
+              <label for="audio-toggle">Audio:</label>
+              <input type="checkbox" id="audio-toggle" checked>
+            </div>
+            <div class="setting-group">
+              <label for="volume-slider">Volume:</label>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5">
+              <span id="volume-value">50%</span>
+            </div>
+            <button id="close-settings">Close</button>
+          </div>
+        </div>
+        <div id="game-end-screen" class="screen hidden">
+          <div class="end-content">
+            <h2>Game Over</h2>
+            <div id="final-stats">
+              <!-- Final statistics will be populated here -->
+            </div>
+            <div class="end-buttons">
+              <button id="play-again-btn">Play Again</button>
+              <button id="back-to-menu-btn">Main Menu</button>
+            </div>
+          </div>
+        </div>
+        <div id="stats-modal" class="modal hidden">
+          <div class="modal-content">
+            <h2>Session Statistics</h2>
+            <div id="stats-content">
+              <!-- Statistics will be populated here -->
+            </div>
+            <div class="modal-buttons">
+              <button id="close-stats-btn">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

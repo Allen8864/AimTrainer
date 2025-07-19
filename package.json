@@ -1,0 +1,34 @@
+{
+  "name": "aimtrainer",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:analyze": "tsc && vite build --mode analyze",
+    "preview": "vite preview",
+    "preview:dist": "vite preview --port 4173",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "build:clean": "npm run clean && npm run build",
+    "verify-build": "node scripts/verify-build.js",
+    "build:verify": "npm run build && npm run verify-build",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^3.2.4",
+    "jsdom": "^26.1.0",
+    "terser": "^5.36.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@types/three": "^0.178.1",
+    "three": "^0.178.0",
+    "three-stdlib": "^2.36.0"
+  }
+}

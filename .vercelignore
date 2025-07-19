@@ -1,0 +1,28 @@
+# Development files
+src/
+.kiro/
+node_modules/
+.vscode/
+
+# Build artifacts that shouldn't be deployed
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# Development configuration
+vite.config.ts
+tsconfig.json
+package-lock.json
+
+# Git files
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Test files
+**/*.test.*
+**/*.spec.*
