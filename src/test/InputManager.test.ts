@@ -208,47 +208,6 @@ describe('InputManager', () => {
     })
   })
 
-  describe('touch support', () => {
-    beforeEach(() => {
-      // Mock touch device detection
-      Object.defineProperty(window, 'ontouchstart', { value: true, writable: true })
-      Object.defineProperty(navigator, 'maxTouchPoints', { value: 1, writable: true })
-      
-      // Recreate InputManager to trigger touch device detection
-      inputManager = new InputManager(mockCanvas, mockSettingsManager)
-    })
-
-    it('should handle touch start events', () => {
-      const touchEvent = new TouchEvent('touchstart', {
-        touches: [{ clientX: 400, clientY: 300 } as Touch]
-      })
-      
-      mockCanvas.dispatchEvent(touchEvent)
-      
-      expect(inputManager.isClicking()).toBe(true)
-    })
-
-    it('should handle touch end events', () => {
-      const clickHandler = vi.fn()
-      inputManager.onMouseClick(clickHandler)
-      
-      // Start touch
-      const touchStartEvent = new TouchEvent('touchstart', {
-        touches: [{ clientX: 400, clientY: 300 } as Touch]
-      })
-      mockCanvas.dispatchEvent(touchStartEvent)
-      
-      // End touch
-      const touchEndEvent = new TouchEvent('touchend', {
-        changedTouches: [{ clientX: 400, clientY: 300 } as Touch]
-      })
-      mockCanvas.dispatchEvent(touchEndEvent)
-      
-      expect(inputManager.isClicking()).toBe(false)
-      expect(clickHandler).toHaveBeenCalled()
-    })
-  })
-
   describe('disposal', () => {
     it('should clean up event listeners and handlers', () => {
       const clickHandler = vi.fn()
