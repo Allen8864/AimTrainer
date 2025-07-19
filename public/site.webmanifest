@@ -1,0 +1,23 @@
+{
+  "name": "3D Aim Trainer",
+  "short_name": "AimTrainer",
+  "description": "Practice your aiming skills in a realistic 3D environment",
+  "icons": [
+    {
+      "src": "/crosshair.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "fullscreen",
+  "theme_color": "#1a1a1a",
+  "background_color": "#1a1a1a",
+  "orientation": "landscape"
+}
