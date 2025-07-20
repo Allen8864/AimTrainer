@@ -272,7 +272,7 @@ export class GameEngine {
       const reactionTime = result.target ? this.calculateReactionTime(result.target) : undefined;
 
       // Add hit to score manager
-      const hitScore = this.scoreManager.addHit(reactionTime);
+      this.scoreManager.addHit(reactionTime);
 
       // Create hit particle effect
       if (this.particleSystem && result.hitPoint) {

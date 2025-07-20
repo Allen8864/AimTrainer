@@ -333,7 +333,7 @@ export class TargetManager {
     this.targetPool.setMaxPoolSize(size);
   }
 
-  public setTargetComplexity(complexity: number): void {
+  public setTargetComplexity(_complexity: number): void {
     // This would affect how detailed the target geometry is
     // For now, we'll store it for future use when creating targets
     // In a more advanced implementation, this would affect the geometry detail

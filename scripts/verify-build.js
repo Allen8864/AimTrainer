@@ -11,13 +11,15 @@ import { join } from 'path';
 const DIST_DIR = 'dist';
 const REQUIRED_FILES = [
   'index.html',
-  'vite.svg'
+  'crosshair.svg',
+  'favicon.svg',
+  'site.webmanifest'
 ];
 
 const REQUIRED_ASSET_PATTERNS = [
-  /index-[a-zA-Z0-9]+\.js$/,
-  /index-[a-zA-Z0-9]+\.css$/,
-  /three-[a-zA-Z0-9]+\.js$/,
+  /index-[a-zA-Z0-9-]+\.js$/,
+  /index-[a-zA-Z0-9-]+\.css$/,
+  /three-[a-zA-Z0-9-]+\.js$/,
   /managers-[a-zA-Z0-9]+\.js$/
 ];
 
